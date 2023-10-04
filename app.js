@@ -14,6 +14,9 @@ var nodemon = express();
 // view engine setup
 nodemon.set('views', path.join(__dirname, 'views'));
 nodemon.set('view engine', 'ejs');
+// to set template file extension to .html 
+//nodemon.set('view engine', 'html');
+//nodemon.engine('html', require('ejs').__express);
 
 nodemon.use(logger('dev'));
 nodemon.use(express.json());
