@@ -1,11 +1,10 @@
 'use strict';
 
-const readline = require('node:readline');
 const connection = require('./lib/connectMongoose');
 const Articles = require('./model/Article');
 const initData = require('./init-db-data.json');
 
-main().catch(err => console.log('Hubo un error', err));
+main().catch(err => console.log('Error in init data', err));
 
 async function main() {
 
@@ -21,4 +20,8 @@ async function initArticles() {
 
   const inserted = await Articles.insertMany(initData.Articles);
   console.log(`Inserted ${inserted.length} Articles.`);
+
+  initData.Articles.forEach(element => {
+    console.log(`Inserted ${JSON.stringify(element)}`)
+  });
 }
