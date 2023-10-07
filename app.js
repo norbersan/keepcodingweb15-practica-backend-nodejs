@@ -7,7 +7,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 
 var nodemon = express();
 
@@ -25,7 +24,6 @@ nodemon.use(cookieParser());
 nodemon.use(express.static(path.join(__dirname, 'public')));
 
 nodemon.use('/', indexRouter);
-nodemon.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 nodemon.use(function(req, res, next) {

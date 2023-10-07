@@ -1,0 +1,25 @@
+{
+  "Articles": [
+    {
+      "name": "bike",
+      "type": "sale",
+      "price": 1000,
+      "photo": "bike.jpg",
+      "tags": ["motor", "lifestye"]
+    },
+    {
+      "name": "phone",
+      "type": "buy",
+      "price": 100,
+      "photo": "phone.jpg",
+      "tags": ["mobile", "work"]
+    },
+    {
+      "name": "gamusino",
+      "type": "sale",
+      "price": 1000,
+      "photo": "gamusino.jpg",
+      "tags": []
+    }
+  ]
+}

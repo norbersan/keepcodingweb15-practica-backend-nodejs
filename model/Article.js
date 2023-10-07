@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 
 const articleSchema = mongoose.Schema({
   name: { type: String, index: true },
-  age: { type: Number, index: true, min: 18, max: 120 },
+  type: { type: String },
+  price: { type: Number},
+  photo: { type: String},
+  tags: { type: [String]}// work, lifestyle, motor, mobile
 }, {
   collection: 'articles'
 });
