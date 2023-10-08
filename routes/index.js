@@ -61,4 +61,14 @@ router.post('/', async (req, res, next) => {
   }
 });
 
+router.get('/ui', async function(req, res, next) {
+
+  res.locals.title = "Articles list";
+  res.locals.articles = JSON.stringify(await Articles.lista({}));
+
+  console.log('Article list : ' + res.locals.articles)
+
+  res.render('../views/index.ejs');
+});
+
 module.exports = router;
