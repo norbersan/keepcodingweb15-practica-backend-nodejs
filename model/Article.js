@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const logger = require('morgan');
 
 const articleSchema = mongoose.Schema({
   name: { type: String, index: true },
@@ -10,10 +11,14 @@ const articleSchema = mongoose.Schema({
   collection: 'articles'
 });
 
-articleSchema.statics.lista = function(filtro, skip, limit) {
-  const query = Agente.find(filtro);
+articleSchema.statics.lista = function(filtro, skip, limit, sort) {
+  console.log(filtro)
+  console.log(skip)
+  console.log(limit)
+  const query = Article.find(filtro);
   query.skip(skip);
   query.limit(limit);
+  query.sort(sort)
   return query.exec();
 }
 

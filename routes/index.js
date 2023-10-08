@@ -2,33 +2,25 @@
 
 const express = require('express');
 const router = express.Router();
-const Agente = require('../models/Article');
+const Articles = require('../model/Article');
+const logger = require('morgan');
+const Article = require('../model/Article');
 
 /**
  * @openapi
  * /api/articles:
  *  get:
- *   description: Returns a list of all articles
+ *   description: Returns a list of articles
  *   responses:
  *    200:
  *     description: returns JSON
  */
 router.get('/', async (req, res, next) => {
   try {
-    // filtros
-    // http://127.0.0.1:3000/api/agentes?name=Jones
     const filterByName = req.query.name;
-    const filtreByAge = req.query.age;
-    // paginación
-    // http://127.0.0.1:3000/api/agentes?skip=2&limit=2
     const skip = req.query.skip;
     const limit = req.query.limit;
-    // ordenación
-    // http://127.0.0.1:3000/api/agentes?sort=-age%20name
     const sort = req.query.sort;
-    // field selection
-    // http://localhost:3000/api/agentes?fields=name%20-_id%20address
-    const fields = req.query.fields;
 
     const filtro = {};
 
@@ -36,85 +28,37 @@ router.get('/', async (req, res, next) => {
       filtro.name = filterByName;
     }
 
-    if (filtreByAge) {
-      filtro.age = filtreByAge;
-    }
+    const articles = await Articles.lista(filtro, skip, limit, sort);
 
-    const agentes = await Agente.lista(filtro, skip, limit, sort, fields);
-
-    // probamos un método de instancia
-    // agentes.forEach(agente => {
-    //   agente.saluda();
-    // })
-
-    res.json({ results: agentes })
+    res.json({ results: articles })
 
   } catch (err) {
     next(err);
   }
 });
 
-// GET /api/agentes/(_id)
-// Devuelve un agente
-router.get('/:id', async (req, res, next) => {
-  try {
-    const id = req.params.id;
-
-    const agente = await Agente.findById(id);
-
-    res.json({ result: agente });
-  } catch (err) {
-    next(err);
-  }
-});
-
-// PUT /api/agentes/(_id)
-// Actualiza un agente
-router.put('/:id', async (req, res, next) => {
-  try {
-    const id = req.params.id;
-    const data = req.body;
-
-    const agenteActualizado = await Agente.findByIdAndUpdate(id, data, { new: true });
-
-    res.json({ result: agenteActualizado });
-
-  } catch (err) {
-    next(err);
-  }
-});
-
-// POST /api/agentes
-// Crea un agente
+/**
+ * @openapi
+ * /api/articles:
+ *  post:
+ *   description: Saves an article
+ *   responses:
+ *    200:
+ *     description: returns JSON
+ */
 router.post('/', async (req, res, next) => {
   try {
-    const agenteData = req.body;
+    const articleData = req.body;
 
-    // creamos una instancia de agente en memoria
-    const agente = new Agente(agenteData);
+    const article = new Article(articleData);
 
-    // la persistimos en la BD
-    const agenteGuardado = await agente.save();
+    const saved = await article.save();
 
-    res.json({ result: agenteGuardado });
+    res.json({ result: saved });
 
   } catch (err) {
     next(err);
   }
 });
-
-// DELETE /api/agentes/(_id)
-// Elimina un agente
-router.delete('/:id', async (req, res, next) => {
-  try {
-    const id = req.params.id;
-
-    await Agente.deleteOne({ _id: id });
-
-    res.json();
-  } catch (err) {
-    next(err);
-  }
-})
 
 module.exports = router;
